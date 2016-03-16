@@ -1,6 +1,7 @@
 require 'sinatra'
 require_relative 'config/application'
 require 'pry'
+enable :sessions
 
 helpers do
   def current_user
@@ -33,14 +34,30 @@ end
 
 get '/meetups' do
   @meetups = Meetup.all
-  # binding.pry
   erb :'meetups/index'
 end
 
 get '/meetups/:id' do
-  # binding.pry
   @meetup = Meetup.where(id: params[:id])
   @creator = User.where(id: @meetup.first.creator_id)
-  binding.pry
+  # binding.pry
+  if Membership.where(meetup_id: params[:id]) != []
+    @members = User.where(id: Membership.where(meetup_id: params[:id]).first.user_id)
+  end
+  @message = session[:message]
   erb :'meetups/show'
+end
+
+get '/new' do
+  erb :'meetups/new'
+end
+
+post '/new' do
+  # binding.pry
+  @id = Meetup.create(name: params[:name], location: params[:location], description: params[:description], created_at: Time.now, updated_at: Time.now, creator_id: session[:user_id]).id
+
+  session[:message] = "Meetup created!"
+
+  redirect "/meetups/#{@id}"
+
 end

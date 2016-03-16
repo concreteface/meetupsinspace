@@ -1,13 +1,24 @@
 <!DOCTYPE html>
 <html>
-<head>
-	<title>Meetup</title>
-</head>
-<body>
-<%= @meetup[0].name %>
-<%= @meetup[0].description %>
-<%= @meetup[0].location %>
-<%= @creator.first.username %>
-
-</body>
+  <head>
+    <title>Meetup</title>
+  </head>
+  <body>
+    <% if !@message.nil? && @message != '' %>
+      <%= @message %>
+    <% end %>
+    <p>Meetup Name: <%= @meetup.first.name %></p>
+    <p>Description: <%= @meetup.first.description %></p>
+    <p>Location: <%= @meetup.first.location %></p>
+    <% if !@members.nil? %>
+    <p>
+      <ul>
+        <% @members.each_with_index do |mem, i| %>
+          <li><%= @members[i].username %></li>
+        <% end %>
+      </ul>
+    </p>
+    <% end %>
+    <p>Creator: <%= @creator.first.username %></p>
+  </body>
 </html>

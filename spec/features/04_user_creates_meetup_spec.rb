@@ -34,13 +34,14 @@ feature "User can create a new meetup" do
   end
 
   scenario "visit new meetups page and find form" do
+    # save_and_open_page
     visit '/meetups'
     sign_in_as user
     click_link "Create Meetup"
     expect(page).to have_content('Enter meetup details:')
-    expect(page).to have_selector("input[value='Name']")
-    expect(page).to have_selector("input[value='Location']")
-    expect(page).to have_selector("input[value='Description']")
+    expect(page).to have_selector("input[placeholder='Name']")
+    expect(page).to have_selector("input[placeholder='Location']")
+    expect(page).to have_selector("input[placeholder='Description']")
   end
 
   scenario "user fills in form with correct values" do

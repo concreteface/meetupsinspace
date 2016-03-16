@@ -14,7 +14,7 @@ feature "User can see the members of a meetup and join" do
   let!(:user2) do
     User.create(
       provider: "github",
-      uid: "1",
+      uid: "2",
       username: "fred2",
       email: "fred2@dead.com",
       avatar_url: "http://yo.com"
@@ -23,7 +23,7 @@ feature "User can see the members of a meetup and join" do
   let!(:user3) do
     User.create(
       provider: "github",
-      uid: "1",
+      uid: "3",
       username: "fred3",
       email: "fred3@dead.com",
       avatar_url: "http://yo.com"
@@ -47,19 +47,19 @@ feature "User can see the members of a meetup and join" do
 
 
   scenario "visit meetup show page" do
-    visit '/meetups/1'
+    visit "/meetups/#{meetup.id}"
     expect(page).to have_content('fred2')
     have_css("img[src*='http://yo.com']")
   end
 
   scenario "visit meetup show page while not signed in" do
-    visit '/meetups/1'
+    visit "/meetups/#{meetup.id}"
     click_button 'Join'
     expect(page).to have_content('You must sign in first')
   end
 
   scenario "visit meetup show page while signed in" do
-    visit '/meetups/1'
+    visit "/meetups/#{meetup.id}"
     sign_in_as user3
     click_button 'Join'
     expect(page).to have_content('You joined the meetup')
