@@ -7,9 +7,9 @@
     <% if !@message.nil? && @message != '' %>
       <%= @message %>
     <% end %>
-    <p>Meetup Name: <%= @meetup.first.name %></p>
-    <p>Description: <%= @meetup.first.description %></p>
-    <p>Location: <%= @meetup.first.location %></p>
+    <p>Meetup Name: <%= @meetup.name %></p>
+    <p>Description: <%= @meetup.description %></p>
+    <p>Location: <%= @meetup.location %></p>
     <% if !@members.nil? %>
     <p>
       <ul>
@@ -19,8 +19,8 @@
       </ul>
     </p>
     <% end %>
-    <p>Creator: <%= @creator.first.username %></p>
-    <form action="/meetups/<%= @meetup.first.id %>" method='get'>
+    <p>Creator: <%= @creator.username %></p>
+    <form action="/meetups/<%= @meetup.id %>" method='get'>
     	<input type="hidden" name="join" id='join' value='1'>
     	<button type='submit' style="background-color:black">Join Meetup</button>
     </form>

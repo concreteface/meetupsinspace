@@ -45,17 +45,22 @@ get '/meetups/:id' do
     else
       @id = params[:id]
       @membership = Membership.new(meetup_id: params[:id], user_id: session[:user_id])
-      if @membership.valid?
+
+      if Membership.where(meetup_id: params[:id]).find_by(user_id: session[:user_id]).nil?
+
         @membership.save
+
         @message = "You joined the meetup"
       else @message = "You are already a member"
       end
     end
   end
-  @meetup = Meetup.where(id: params[:id])
-  @creator = User.where(id: @meetup.first.creator_id)
+
+  @meetup = Meetup.where(id: params[:id]).first
+  @creator = @meetup.creator
+
   if Membership.where(meetup_id: params[:id]) != []
-    @members = User.where(id: Membership.where(meetup_id: params[:id]).first.user_id)
+    @members = @meetup.users
   end
   erb :'meetups/show'
 end

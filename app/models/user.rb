@@ -1,7 +1,7 @@
 class User < ActiveRecord::Base
   has_many :created_meetups, class_name: "Meetup", foreign_key: :creator_id
   has_many :meetups, through: :memberships
-  # has_many :memberships
+  has_many :memberships
   validates :email, uniqueness: true
 
   def self.find_or_create_from_omniauth(auth)
