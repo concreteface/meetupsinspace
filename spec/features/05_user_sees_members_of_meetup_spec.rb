@@ -52,17 +52,29 @@ feature "User can see the members of a meetup and join" do
     have_css("img[src*='http://yo.com']")
   end
 
+  scenario "visit meetup show page while signed in" do
+    visit "/meetups"
+    sign_in_as user3
+    visit "/meetups/#{meetup.id}"
+    click_button 'Join Meetup'
+    expect(page).to have_content('You joined the meetup')
+    expect(page).to have_content('fred3')
+  end
+
+  scenario "user tries to join meetup when already a member" do
+    visit "/meetups"
+    sign_in_as user3
+    visit "/meetups/#{meetup.id}"
+    click_button 'Join'
+    click_button 'Join'
+    expect(page).to have_content('You are already a member')
+  end
+
   scenario "visit meetup show page while not signed in" do
     visit "/meetups/#{meetup.id}"
     click_button 'Join'
     expect(page).to have_content('You must sign in first')
   end
 
-  scenario "visit meetup show page while signed in" do
-    visit "/meetups/#{meetup.id}"
-    sign_in_as user3
-    click_button 'Join'
-    expect(page).to have_content('You joined the meetup')
-    expect(page).to have_content('fred3')
-  end
+
 end

@@ -28,34 +28,42 @@ end
 get '/sign_out' do
   session[:user_id] = nil
   flash[:notice] = "You have been signed out."
-
   redirect '/'
 end
 
 get '/meetups' do
+  session[:message] = ''
   @meetups = Meetup.all
   erb :'meetups/index'
 end
 
 get '/meetups/:id' do
+  @message = session[:message]
   if params[:join] == '1'
-    # Membership.create(meetup.id: params[:id])
+    if session[:user_id].nil?
+      @message = "You must sign in first"
+    else
+      @id = params[:id]
+      @membership = Membership.new(meetup_id: params[:id], user_id: session[:user_id])
+      binding.pry
+      if @membership.valid?
+        @membership.save
+        @message = "You joined the meetup"
+      else @message = "You are already a member"
+      end
+    end
   end
   @meetup = Meetup.where(id: params[:id])
   @creator = User.where(id: @meetup.first.creator_id)
-  # binding.pry
   if Membership.where(meetup_id: params[:id]) != []
     @members = User.where(id: Membership.where(meetup_id: params[:id]).first.user_id)
   end
-  @message = session[:message]
   erb :'meetups/show'
 end
 
 get '/new' do
   @messages = {name: '', location: '', description: ''}
-
   erb :'meetups/new'
-
 end
 
 post '/new' do
@@ -66,13 +74,10 @@ post '/new' do
     @id = @meetup.id
     session[:message] = "Meetup created!"
     redirect "/meetups/#{@id}"
-   
   else @messages = @meetup.errors.messages
     @name = params['name']
     @location = params['location']
     @description = params['description']
   end
   erb :'meetups/new'
-
-
 end

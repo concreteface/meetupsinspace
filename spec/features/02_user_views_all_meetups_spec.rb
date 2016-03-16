@@ -4,6 +4,7 @@ require 'launchy'
 feature "User visits meetup page" do
   # user = FactoryGirl.create(:user)
   # meetup = FactoryGirl.create(:meetup)
+  # membership = FactoryGirl.create(:membership)
   let!(:user) do
     User.create(
       provider: "github",
