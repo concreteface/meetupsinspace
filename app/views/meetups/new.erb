@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title></title>
+  </head>
+  <body>
+    <% if @messages[:name] != '' && !@messages[:name].nil?%>
+     Name <%= @messages[:name].first %>
+    <% end %>
+    <% if @messages[:location] != '' && !@messages[:location].nil?%>
+     Location <%= @messages[:location].first %>
+    <% end %>
+    <% if @messages[:description] != '' && !@messages[:description].nil?%>
+     Description <%= @messages[:description].first %>
+    <% end %>
+    <h2>Enter meetup details:</h2>
+    <form action='/new' method='post'>
+      <input type="text" name="name" id='name' placeholder='Name'  value="<%= @name %>" style="background-color:black">
+      <input type="text" name="location" id='location' placeholder='Location' value="<%= @location %>" style="background-color:black" >
+      <input type="text" name="description" id='description' placeholder='Description' value="<%= @description %>" style="background-color:black" >
+      <button type='submit'>Submit</button>
+    </form>
+  </body>
+</html>

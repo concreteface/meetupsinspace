@@ -57,4 +57,14 @@ feature "User can create a new meetup" do
     expect(page).to have_content("Downtown")
     expect(page).to have_content("Roll")
   end
+  scenario "user enters invalid form" do
+    visit '/meetups'
+    sign_in_as user
+    click_link "Create Meetup"
+    fill_in "Name", with: "Bowling"
+    fill_in "Description", with: "Roll some balls!"
+    click_button 'Submit'
+    expect(page).to have_content("can't be blank")
+    
+  end
 end

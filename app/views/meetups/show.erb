@@ -20,5 +20,11 @@
     </p>
     <% end %>
     <p>Creator: <%= @creator.first.username %></p>
+    <form action="/meetups/<%= @meetup.first.id %>" method='get'>
+    	<input type="hidden" name="join" id='join' value='1'>
+    	<button type='submit' style="background-color:black">Join Meetup</button>
+    </form>
+
+
   </body>
 </html>

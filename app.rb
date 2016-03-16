@@ -38,6 +38,9 @@ get '/meetups' do
 end
 
 get '/meetups/:id' do
+  if params[:join] == '1'
+    # Membership.create(meetup.id: params[:id])
+  end
   @meetup = Meetup.where(id: params[:id])
   @creator = User.where(id: @meetup.first.creator_id)
   # binding.pry
@@ -49,15 +52,27 @@ get '/meetups/:id' do
 end
 
 get '/new' do
+  @messages = {name: '', location: '', description: ''}
+
   erb :'meetups/new'
+
 end
 
 post '/new' do
-  # binding.pry
-  @id = Meetup.create(name: params[:name], location: params[:location], description: params[:description], created_at: Time.now, updated_at: Time.now, creator_id: session[:user_id]).id
+  @meetup = Meetup.new(name: params[:name], location: params[:location], description: params[:description], created_at: Time.now, updated_at: Time.now, creator_id: session[:user_id])
 
-  session[:message] = "Meetup created!"
+  if @meetup.valid?
+    @meetup.save
+    @id = @meetup.id
+    session[:message] = "Meetup created!"
+    redirect "/meetups/#{@id}"
+   
+  else @messages = @meetup.errors.messages
+    @name = params['name']
+    @location = params['location']
+    @description = params['description']
+  end
+  erb :'meetups/new'
 
-  redirect "/meetups/#{@id}"
 
 end
