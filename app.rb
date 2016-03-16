@@ -45,7 +45,6 @@ get '/meetups/:id' do
     else
       @id = params[:id]
       @membership = Membership.new(meetup_id: params[:id], user_id: session[:user_id])
-      binding.pry
       if @membership.valid?
         @membership.save
         @message = "You joined the meetup"

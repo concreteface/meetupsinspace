@@ -14,7 +14,7 @@
     <p>
       <ul>
         <% @members.each_with_index do |mem, i| %>
-          <li><%= @members[i].username %></li>
+          <li><img src="<%= @members[i].avatar_url %>" height="42" width="42"><%= @members[i].username %></li>
         <% end %>
       </ul>
     </p>
