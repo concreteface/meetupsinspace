@@ -55,11 +55,11 @@ feature "User can see the members of a meetup and join" do
   end
 
 
-  # scenario "visit meetup show page" do
-  #   visit "/meetups/#{meetup.id}"
-  #   expect(page).to have_content('fred2')
-  #   expect(page).to have_css("img[src*='http://yo.com']")
-  # end
+  scenario "visit meetup show page" do
+    visit "/meetups/#{meetup.id}"
+    expect(page).to have_content('fred2')
+    expect(page).to have_css("img[src*='http://yo.com']")
+  end
 
   scenario "visit meetup show page while signed in" do
     visit "/meetups"

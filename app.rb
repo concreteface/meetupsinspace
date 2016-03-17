@@ -46,10 +46,9 @@ get '/meetups/:id' do
       @id = params[:id]
       @membership = Membership.new(meetup_id: params[:id], user_id: session[:user_id])
 
-      if Membership.where(meetup_id: params[:id]).find_by(user_id: session[:user_id]).nil?
-
+      if Membership.all.find_by(meetup_id: params[:id], user_id: session[:user_id]).nil?
+        # Membership.where(meetup_id: params[:id]).find_by(user_id: session[:user_id]).nil?
         @membership.save
-
         @message = "You joined the meetup"
       else @message = "You are already a member"
       end
@@ -71,17 +70,25 @@ get '/new' do
 end
 
 post '/new' do
-  @meetup = Meetup.new(name: params[:name], location: params[:location], description: params[:description], created_at: Time.now, updated_at: Time.now, creator_id: session[:user_id])
+  if session[:user_id].nil?
+  	@messages = {sign_in: 'You must sign in'}
+  	binding.pry
+      @name = params['name']
+      @location = params['location']
+      @description = params['description']
+  else
+    @meetup = Meetup.new(name: params[:name], location: params[:location], description: params[:description], created_at: Time.now, updated_at: Time.now, creator_id: session[:user_id])
 
-  if @meetup.valid?
-    @meetup.save
-    @id = @meetup.id
-    session[:message] = "Meetup created!"
-    redirect "/meetups/#{@id}"
-  else @messages = @meetup.errors.messages
-    @name = params['name']
-    @location = params['location']
-    @description = params['description']
+    if @meetup.valid?
+      @meetup.save
+      @id = @meetup.id
+      session[:message] = "Meetup created!"
+      redirect "/meetups/#{@id}"
+    else @messages = @meetup.errors.messages
+      @name = params['name']
+      @location = params['location']
+      @description = params['description']
+    end
   end
   erb :'meetups/new'
 end

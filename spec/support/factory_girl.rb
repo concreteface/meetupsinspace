@@ -14,9 +14,9 @@ FactoryGirl.define do
     location "My house"
     association :creator, factory: :user
   end
-  factory :membership do
-    user user
-    meetup meetup
-  end
+  # factory :membership do
+  #   user user
+  #   meetup meetup
+  # end
 
 end

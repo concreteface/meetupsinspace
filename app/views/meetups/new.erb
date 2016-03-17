@@ -4,14 +4,18 @@
     <title></title>
   </head>
   <body>
-    <% if @messages[:name] != '' && !@messages[:name].nil?%>
-     Name <%= @messages[:name].first %>
-    <% end %>
-    <% if @messages[:location] != '' && !@messages[:location].nil?%>
-     Location <%= @messages[:location].first %>
-    <% end %>
-    <% if @messages[:description] != '' && !@messages[:description].nil?%>
-     Description <%= @messages[:description].first %>
+    <%if !@messages[:sign_in].nil? %>
+      <%= @messages[:sign_in] %>
+    <% else %>
+      <% if @messages[:name] != '' && !@messages[:name].nil?%>
+        Name <%= @messages[:name].first %>
+      <% end %>
+      <% if @messages[:location] != '' && !@messages[:location].nil?%>
+        Location <%= @messages[:location].first %>
+      <% end %>
+      <% if @messages[:description] != '' && !@messages[:description].nil?%>
+        Description <%= @messages[:description].first %>
+      <% end %>
     <% end %>
     <h2>Enter meetup details:</h2>
     <form action='/new' method='post'>
