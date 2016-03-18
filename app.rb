@@ -47,7 +47,6 @@ get '/meetups/:id' do
       @membership = Membership.new(meetup_id: params[:id], user_id: session[:user_id])
 
       if Membership.all.find_by(meetup_id: params[:id], user_id: session[:user_id]).nil?
-        # Membership.where(meetup_id: params[:id]).find_by(user_id: session[:user_id]).nil?
         @membership.save
         @message = "You joined the meetup"
       else @message = "You are already a member"
@@ -71,11 +70,10 @@ end
 
 post '/new' do
   if session[:user_id].nil?
-  	@messages = {sign_in: 'You must sign in'}
-  	binding.pry
-      @name = params['name']
-      @location = params['location']
-      @description = params['description']
+    @messages = {sign_in: 'You must sign in'}
+    @name = params['name']
+    @location = params['location']
+    @description = params['description']
   else
     @meetup = Meetup.new(name: params[:name], location: params[:location], description: params[:description], created_at: Time.now, updated_at: Time.now, creator_id: session[:user_id])
 
